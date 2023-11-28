@@ -33,6 +33,11 @@ func Run() httprouter.Handle {
 		// Logout is done by another endpoint, event message system handles the logout
 		resp, _ := http.Post("http://127.0.0.1:4151/pub?topic=async-api&channel=backendDemoProcessor", "text/plain", bytes.NewBuffer(data))
 		bodyString := ""
+
+		message := Message{
+			Text: "Process started",
+			Href: ""}
+
 		if resp.StatusCode == http.StatusOK {
 			bodyBytes, err := io.ReadAll(resp.Body)
 			if err != nil {
@@ -40,14 +45,12 @@ func Run() httprouter.Handle {
 			}
 			bodyString = string(bodyBytes)
 			log.Println(bodyString)
+		} else {
+			writer.WriteHeader(http.StatusInternalServerError)
 		}
 
 		// For various message-streaming systems, we can use diffrent response body to send back a message
 		// Some of them may offer a backtrace url to check the status of the process, others just fire and forget
-		message := Message{
-			Text: "Process started",
-			Href: ""}
-
 		if bodyString != "OK" {
 			message = Message{
 				Text: "Process started",
