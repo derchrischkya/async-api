@@ -21,7 +21,6 @@ jobs:
 
     steps:
     # Checkout the repository to the GitHub Actions runner
-    - uses: actions/checkout@v4
     - name: Setup Go ${{ matrix.go-version }}
       uses: actions/setup-go@v4
       with:
@@ -47,6 +46,9 @@ jobs:
     - name: Test
       run: |
         sh ../tests/minimal.sh
+
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Create Release
       id: create_release
