@@ -40,9 +40,13 @@ jobs:
       run: |
         make all
 
+    - name: Run Server
+      run: |
+        ../darwin_x86_64/bin/apiserver
+
     - name: Test
       run: |
-        sh ./tests/minimal.sh
+        sh ../tests/minimal.sh
 
     - name: Create Release Package
       id: create_release
