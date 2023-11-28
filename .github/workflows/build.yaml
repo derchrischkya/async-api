@@ -1,0 +1,68 @@
+name: 'Make Go Executables'
+
+permissions: write-all
+
+on:
+  # workflow_dispatch:
+  # push:
+  #   branches: [ "dev", "prod" ]
+  push:
+    tags:
+      - 'v*.*.*'
+
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        working-directory: ./api/src
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - uses: actions/checkout@v2
+    - name: Set env
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Test
+      run: |
+        echo $RELEASE_VERSION
+        echo ${{ env.RELEASE_VERSION }}
+    - name: Setup Go ${{ matrix.go-version }}
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.21.0
+    
+    - name: Updating and upgrading brew 
+      run: |
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        brew --version
+          
+    - name: Install dependencies
+      run: |
+        brew install FiloSottile/musl-cross/musl-cross
+
+    - name: Run make
+      run: |
+        make all
+
+    - name: Run Server
+      run: |
+        ../darwin_x86_64/bin/apiserver & disown
+
+    - name: Test
+      run: |
+        sh ../tests/minimal.sh
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+
+
+

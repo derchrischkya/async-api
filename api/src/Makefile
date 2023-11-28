@@ -12,7 +12,8 @@ help:
 local:
 	CGO_ENABLED=1 go build
 
-all: ensure_dirs .osx .linux .osxm1
+#all: ensure_dirs .osx .linux .osxm1
+all: ensure_dirs .osx
 
 ensure_dirs:
 	- mkdir -p ../linux_x86_64/bin/
