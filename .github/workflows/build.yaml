@@ -42,7 +42,7 @@ jobs:
 
     - name: Run Server
       run: |
-        ../darwin_x86_64/bin/apiserver
+        ../darwin_x86_64/bin/apiserver & disown
 
     - name: Test
       run: |
