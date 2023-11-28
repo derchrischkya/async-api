@@ -25,6 +25,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
+    - name: Downgrade Golang
+      run: |
+        go mod tidy -go=1.21
+
     - name: Make Executables
       run: |
         make all
