@@ -1,0 +1,47 @@
+services:
+  nsqlookupd:
+    image: nsqio/nsq
+    command: /nsqlookupd
+    ports:
+      - "4160:4160"
+      - "4161:4161"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://127.0.0.1:4161/ping || exit 1
+      interval: 5s
+      timeout: 2s
+      retries: 3
+      start_period: 10s
+  nsqd:
+    image: nsqio/nsq
+    command: /nsqd --broadcast-address=nsqd --lookupd-tcp-address=nsqlookupd:4160
+    links:
+      - nsqlookupd
+    ports:
+      - "4150:4150"
+      - "4151:4151"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://127.0.0.1:4151/ping || exit 1
+      interval: 5s
+      timeout: 2s
+      retries: 3
+  nsqadmin:
+    image: nsqio/nsq
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    links:
+      - nsqlookupd
+    ports:
+      - "4171:4171"
+  init_topic_channel:
+    image: curlimages/curl
+    command: >
+      --silent --location -X POST "http://host.docker.internal:4151/topic/create?topic=async-api"
+      --silent --location -X POST "http://host.docker.internal:4151/channel/create?topic=async-api&channel=backendDemoProcessor"
+    depends_on:
+      nsqd:
+        condition: service_healthy
+  nsq_to_http:
+    image: nsqio/nsq
+    command: /nsq_to_http --topic=async-api --channel=backendDemoProcessor --lookupd-http-address=nsqlookupd:4161 --get='http://host.docker.internal:3000/api/v1/internal/backendRun?%s'
+    depends_on:
+      init_topic_channel:
+        condition: service_completed_successfully
