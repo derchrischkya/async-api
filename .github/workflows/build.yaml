@@ -6,8 +6,9 @@ on:
   # workflow_dispatch:
   # push:
   #   branches: [ "dev", "prod" ]
-  pull_request:
-    branches: [ "dev", "prod" ]
+  push:
+    tags:
+      - 'v*.*.*'
 
 
 jobs:
@@ -22,6 +23,12 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - uses: actions/checkout@v2
+    - name: Set env
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Test
+      run: |
+        echo $RELEASE_VERSION
+        echo ${{ env.RELEASE_VERSION }}
     - name: Setup Go ${{ matrix.go-version }}
       uses: actions/setup-go@v4
       with:
