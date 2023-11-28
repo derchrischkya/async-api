@@ -1,5 +1,7 @@
 name: 'Make Go Executables'
 
+permissions: write-all
+
 on:
   # workflow_dispatch:
   # push:
@@ -7,8 +9,6 @@ on:
   pull_request:
     branches: [ "dev", "prod" ]
 
-permissions:
-  contents: read
 
 jobs:
   build:
