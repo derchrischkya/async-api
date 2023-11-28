@@ -12,7 +12,6 @@
   <h3 align="center">ASYNC-API</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
     <br />
     <a href="https://github.com/derchrischkya/async-api"><strong>Explore the docs »</strong></a>
     <br />
@@ -57,10 +56,10 @@
 ## About The Project
 
 The projects provides a simple API-Server which has the following endpoints:
-- GET /api/v1/ping
-- GET /api/v1/process/run
-- GET /api/v1/process/state
-- GET /api/v1/internal/backendRun
+- GET http://127.0.0.1:3000/api/v1/ping
+- GET http://127.0.0.1:3000/api/v1/process/run
+- GET http://127.0.0.1:3000/api/v1/process/state
+- GET http://127.0.0.1:3000/api/v1/internal/backendRun
 
 The enduser can call the endpoint /api/v1/process/run to start a long running process. The process is executed in the background and the enduser can check the state of the process by calling the endpoint /api/v1/process/state. The endpoint /api/v1/internal/backendRun is used by the backend message broker system to start the process.
 
