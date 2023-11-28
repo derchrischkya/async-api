@@ -1,4 +1,4 @@
-curl 127.0.0.1:3000/api/v1/ping
+curl --silent "127.0.0.1:3000/api/v1/ping" > /dev/null
 
 if [ $? -eq 0 ]; then
     echo "API available"
@@ -7,7 +7,7 @@ else
     exit 1
 fi
 
-curl 127.0.0.1:3000/api/v1/process/run
+curl --silent "127.0.0.1:3000/api/v1/process/run" > /dev/null
 
 if [ $? -eq 0 ]; then
     echo "API received message"
@@ -15,5 +15,4 @@ else
     echo "API not received message"
     exit 1
 fi
-
 exit 0
