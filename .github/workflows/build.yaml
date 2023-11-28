@@ -27,6 +27,10 @@ jobs:
       with:
         go-version: 1.21.0
     
+    - name: Install dependencies
+      run: |
+        apt install musl-tools
+        
     - name: Run make
       run: |
         make all
