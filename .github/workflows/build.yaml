@@ -1,0 +1,47 @@
+name: 'Make Executables'
+
+on:
+  # workflow_dispatch:
+  # push:
+  #   branches: [ "dev", "prod" ]
+  pull_request:
+    branches: [ "dev", "prod" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./api/src
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Make Executables
+      run: |
+        make all
+    
+    - name: Test
+      run: |
+        sh ./tests/minimal.sh
+
+    - name: Create Release Package
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+
