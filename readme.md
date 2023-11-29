@@ -137,13 +137,12 @@ _Below is an example of how you can instruct your audience on installing and set
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- ROADMAP -->
 ## Roadmap
 
 - [x] 
 
-See the [open issues](https://github.com/derchrischkya/aws-infra/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/derchrischkya/async-api/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
