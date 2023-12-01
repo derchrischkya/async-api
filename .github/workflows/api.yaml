@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -26,11 +26,11 @@ jobs:
     
     - name: Run make
       run: |
-        make all
+        make .linux
 
     - name: Run Server
       run: |
-        ../darwin_x86_64/bin/apiserver & disown
+        ../linux_x86_64/bin/apiserver & disown
 
     - name: Test
       run: |

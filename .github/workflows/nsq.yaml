@@ -35,7 +35,7 @@ jobs:
 
     - name: Run Server
       run: |
-        ../darwin_x86_64/bin/apiserver & disown
+        ../linux_x86_64/bin/apiserver & disown
 
     - name: Download docker
       run: |
