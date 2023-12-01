@@ -44,6 +44,6 @@ jobs:
 
     - name: Read logs
       run: |
-        cd ./message-broker/nsq && docker logs nsq-nsq_to_http-1
+        cd ./message-broker/nsq && docker-compose ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | grep -v '^0' | wc -l | tr -d ' '
 
 
