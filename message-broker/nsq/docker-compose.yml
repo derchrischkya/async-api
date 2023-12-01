@@ -34,14 +34,14 @@ services:
   init_topic_channel:
     image: curlimages/curl
     command: >
-      --location -X POST "http://host.docker.internal:4151/topic/create?topic=async-api"
-      --location -X POST "http://host.docker.internal:4151/channel/create?topic=async-api&channel=backendDemoProcessor"
+      --location -X POST "http://172.17.0.1:4151/topic/create?topic=async-api"
+      --location -X POST "http://172.17.0.1:4151/channel/create?topic=async-api&channel=backendDemoProcessor"
     depends_on:
       nsqd:
         condition: service_healthy
   nsq_to_http:
     image: nsqio/nsq
-    command: /nsq_to_http --topic=async-api --channel=backendDemoProcessor --lookupd-http-address=nsqlookupd:4161 --get='http://host.docker.internal:3000/api/v1/internal/backendRun?%s'
+    command: /nsq_to_http --topic=async-api --channel=backendDemoProcessor --lookupd-http-address=nsqlookupd:4161 --get='http://172.17.0.1:3000/api/v1/internal/backendRun?%s'
     depends_on:
       init_topic_channel:
         condition: service_completed_successfully
