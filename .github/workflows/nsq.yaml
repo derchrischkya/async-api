@@ -39,11 +39,11 @@ jobs:
     
     - name: Run docker-compose
       run: |
-        cd ./message-broker/nsq && docker-compose --verbose up -d
+        cd ./message-broker/nsq && docker-compose up -d
       continue-on-error: true
 
     - name: Read logs
       run: |
-        cd ./message-broker/nsq && docker-compose logs -f nsq-nsq_to_http-1
+        cd ./message-broker/nsq && docker logs nsq-nsq_to_http-1
 
 
