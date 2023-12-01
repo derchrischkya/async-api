@@ -44,7 +44,7 @@ jobs:
 
     - name: Show logs
       run: |
-        docker-compose logs
+        cd ./message-broker/nsq && docker-compose logs
 
 
 
