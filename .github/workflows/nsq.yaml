@@ -1,0 +1,50 @@
+name: ''
+
+permissions: write-all
+
+on:
+  push:
+    branches: 
+      - "*" # Push events to all branches
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - uses: actions/checkout@v2
+    - name: Setup Go ${{ matrix.go-version }}
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.21.0
+    
+    - name: Updating and upgrading brew 
+      run: |
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        brew --version
+          
+    - name: Install dependencies
+      run: |
+        brew install FiloSottile/musl-cross/musl-cross
+
+    - name: Run make
+      run: |
+        cd ./api/src && make .linux
+
+    - name: Run Server
+      run: |
+        ../darwin_x86_64/bin/apiserver & disown
+
+    - name: Download docker
+      run: |
+        curl -fsSL https://get.docker.com -o get-docker.sh
+        sh get-docker.sh
+    
+    - name: Run docker-compose
+      run: |
+        cd ./message-broker/nsq && docker-compose up -d
+
+
+
