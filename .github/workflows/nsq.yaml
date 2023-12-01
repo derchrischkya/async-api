@@ -42,8 +42,7 @@ jobs:
         cd ./message-broker/nsq && docker-compose up -d
       continue-on-error: true
 
-    - name: Read logs
+    - name: Test
       run: |
-        cd ./message-broker/nsq && docker-compose ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | grep -v '^0' | wc -l | tr -d ' '
-
+        sh ./message-broker/nsq/tests/run.sh
 
