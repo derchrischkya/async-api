@@ -34,8 +34,8 @@ services:
   init_topic_channel:
     image: curlimages/curl
     command: >
-      --silent --location -X POST "http://host.docker.internal:4151/topic/create?topic=async-api"
-      --silent --location -X POST "http://host.docker.internal:4151/channel/create?topic=async-api&channel=backendDemoProcessor"
+      --location -X POST "http://host.docker.internal:4151/topic/create?topic=async-api"
+      --location -X POST "http://host.docker.internal:4151/channel/create?topic=async-api&channel=backendDemoProcessor"
     depends_on:
       nsqd:
         condition: service_healthy
