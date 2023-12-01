@@ -39,7 +39,7 @@ jobs:
     
     - name: Run docker-compose
       run: |
-        cd ./message-broker/nsq && docker-compose up -d
+        cd ./message-broker/nsq && docker-compose up
       continue-on-error: true
 
     - name: Show logs
