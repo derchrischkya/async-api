@@ -44,10 +44,6 @@ jobs:
 
     - name: Show logs
       run: |
-        cd ./message-broker/nsq && docker-compose logs
-
-    - name: Show logs
-      run: |
-        docker logs nsq_to_http
+        cd ./message-broker/nsq && docker-compose logs -f
 
 
