@@ -42,4 +42,9 @@ jobs:
         cd ./message-broker/nsq && docker-compose --verbose up -d
       continue-on-error: true
 
+    - name: Read logs
+      run: |
+        cd ./message-broker/nsq && docker-compose logs -f nsq_to_http_1
+      continue-on-error: true
+
 
