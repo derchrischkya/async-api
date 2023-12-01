@@ -38,7 +38,7 @@ jobs:
 
     - name: Test
       run: |
-        sh ../tests/minimal.sh
+        sh ../tests/run.sh
 
 
 
