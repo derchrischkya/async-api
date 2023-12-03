@@ -1,14 +1,14 @@
-curl --silent "http://127.0.0.1:4151/stats?topic=async-api&channel=backendDemoProcessor" 
+curl --silent "http://127.0.0.1:4151/stats?topic=async-api&channel=backendDemoProcessor" > /dev/null
 
 if [ $? -eq 0 ]; then
-    echo "NSQ topic available"
+    echo "NSQ topics available"
 else
-    echo "NSQ topic non available"
+    echo "NSQ topics non available"
     exit 1
 fi
 
 
-curl --silent -d "Hello World" "http://127.0.0.1:4151/pub?topic=async-api&channel=backendDemoProcessor"
+curl --silent -d "Hello World" "http://127.0.0.1:4151/pub?topic=async-api&channel=backendDemoProcessor" > /dev/null
 
 if [ $? -eq 0 ]; then
     echo "Message sent to NSQ"
